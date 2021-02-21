@@ -26,7 +26,13 @@
 
             for (var i = 1; i <= numberOfClasses; i++) {
                 sum += val("grade_value" + i) * 1.0;
-                weightedSum += val("grade_value" + i) * val("level" + i);
+                
+                // from some reverse engineering PlusPortals, I've figured out student 
+                // grades are weighted in the following way when calculating weighted GPA:
+                // weighted_grade = round(raw_grade * multiplier)
+                // rather than just adding (raw * multiplier) with its trailing decimals.
+                // it doesn't perfectly emulate the real calculation method, but it's very close
+                weightedSum += Math.round(val("grade_value" + i) * val("level" + i));
             }
             var gpa = Math.trunc(100 * sum / numberOfClasses) / 100.0;
             var weightedGpa = Math.trunc(100 * weightedSum / numberOfClasses) / 100.0;

@@ -1,0 +1,39 @@
+h2, h3 {
+	font-family: monospace;
+	color: maroon;
+}
+
+h2:hover, h3:hover {
+	color: goldenrod;
+}
+
+button {
+	color: maroon;
+	font-family: monospace;
+	font-weight: bold; 
+}
+
+button:hover {
+	color: goldenrod;
+}
+
+p {
+	font-family: monospace;
+}
+
+footer p {
+	word-wrap: break-word;
+	width: 30%;
+}
+
+b {
+	color: red;
+}
+
+input {
+	font-family: monospace;
+}
+
+footer p {
+	font-size: smaller;
+}

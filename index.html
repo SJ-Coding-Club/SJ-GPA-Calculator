@@ -1,0 +1,164 @@
+<!-- If you're reading this, come help us build more cool stuff like this: https://github.com/SJ-Coding-Club -->
+
+
+<!-- Ignore the poorly organized/written code, this is a rough prototype -->
+<!-- Yeah this code is pretty terrible right now it's like reading a standup comedy sketch -->
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<head>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        function val(name) {
+            return document.getElementById(name).value;
+        }
+
+        function calculate_quarter_gpa() {
+            var numberOfClasses = 7;
+            if (val("grade_value7") == 0) {
+                numberOfClasses = 6;
+                if (val("grade_value6") == 0) {
+                    numberOfClasses = 5; // if someone somehow has only 5 classes.
+                }
+            }
+            var sum = 0;
+            var weightedSum = 0;
+
+            for (var i = 1; i <= numberOfClasses; i++) {
+                sum += val("grade_value" + i) * 1.0;
+                weightedSum += val("grade_value" + i) * val("level" + i);
+            }
+            var gpa = Math.trunc(100 * sum / numberOfClasses) / 100.0;
+            var weightedGpa = Math.trunc(100 * weightedSum / numberOfClasses) / 100.0;
+            return [gpa, weightedGpa];
+        }
+
+        function display_quarter_gpa() {
+            var gpa, weightedGpa;
+            [gpa, weightedGpa] = calculate_quarter_gpa();
+            document.getElementById("gpa").innerHTML = "Unweighted: <b>" + gpa + "</b> Weighted: <b>" + weightedGpa + "</b>";
+        }
+
+        function calculate_cumulative_gpa() {
+            var weighted_quarter_gpa = calculate_quarter_gpa()[1];
+            var weighted_career_gpa = val("career_gpa");
+            return Math.trunc(100 * (weighted_career_gpa * (parseFloat(val('year')) + 
+                parseFloat(val('quarter'))) + (weighted_quarter_gpa / 4.0)) / (parseFloat(val('year')) + 
+                parseFloat(val('quarter')) + 0.25)) / 100.0;
+        }
+
+        function display_cumulative_gpa() {
+            var gpa = calculate_cumulative_gpa();
+            document.getElementById('cumulative').innerHTML = "Updated Weighted Career GPA: <b>" + gpa + "</b>"; 
+        }
+    </script>
+</head>
+
+<h2>SJ GPA Calculator</h2>
+
+<body>
+    <h3>Calculate Quarterly GPA</h3>
+    <p>Leave the last box blank if you only have six classes.</p>
+    <input type="number" id="grade_value1" placeholder="Enter raw grade">
+    <select id="level1">
+        <option value=1.0>CP</option>
+        <option value=1.1>AP</option>
+        <option value=1.07>H1</option>
+        <option value=1.05>H2</option>
+    </select>
+
+    <br><br>
+
+    <input type="number" id="grade_value2" placeholder="Enter raw grade">
+    <select id="level2">
+        <option value=1.0>CP</option>
+        <option value=1.1>AP</option>
+        <option value=1.07>H1</option>
+        <option value=1.05>H2</option>
+    </select>
+
+    <br><br>
+
+    <input type="number" id="grade_value3" placeholder="Enter raw grade">
+    <select id="level3">
+        <option value=1.0>CP</option>
+        <option value=1.1>AP</option>
+        <option value=1.07>H1</option>
+        <option value=1.05>H2</option>
+    </select>
+
+    <br><br>
+
+    <input type="number" id="grade_value4" placeholder="Enter raw grade">
+    <select id="level4">
+        <option value=1.0>CP</option>
+        <option value=1.1>AP</option>
+        <option value=1.07>H1</option>
+        <option value=1.05>H2</option>
+    </select>
+
+    <br><br>
+
+    <input type="number" id="grade_value5" placeholder="Enter raw grade">
+    <select id="level5">
+        <option value=1.0>CP</option>
+        <option value=1.1>AP</option>
+        <option value=1.07>H1</option>
+        <option value=1.05>H2</option>
+    </select>
+
+    <br><br>
+
+    <input type="number" id="grade_value6" placeholder="Enter raw grade">
+    <select id="level6">
+        <option value=1.0>CP</option>
+        <option value=1.1>AP</option>
+        <option value=1.07>H1</option>
+        <option value=1.05>H2</option>
+    </select>
+
+    <br><br>
+
+    <input type="number" id="grade_value7" placeholder="Leave blank if 6">
+    <select id="level7">
+        <option value=1.0>CP</option>
+        <option value=1.1>AP</option>
+        <option value=1.07>H1</option>
+        <option value=1.05>H2</option>
+    </select>
+
+    <br><br>
+
+    <button type="button" onclick="display_quarter_gpa()">Calculate GPA</button>
+
+    <p id="gpa"></p>
+    <br>
+
+
+    <h3>Calculate Weighted Career GPA After This Quarter</h3>
+    <p>Enter your Weighted Career GPA and see what it'll be after this quarter.</p>
+    <input type="number" id="career_gpa" placeholder="Current GPA (W)">
+    <br>
+    <br>
+    <p style="display: inline">last updated as of: </p>
+    <select id="year">
+        <option value=0>Freshman</option>
+        <option value=1>Sophomore</option>
+        <option value=2>Junior</option>
+        <option value=3>Senior</option>
+    </select>
+    <select id="quarter">
+        <option value=0.25>1st Quarter</option>
+        <option value=0.50>2nd Quarter</option>
+        <option value=0.75>3rd Quarter</option>
+        <option value=1.0>4th Quarter</option>
+    </select>
+    <button type="button" onclick="display_cumulative_gpa()" >New GPA</button>
+
+    <p id="cumulative"></p>
+    <br>
+</body>
+
+<footer>
+    <p>Created by the <a href="https://github.com/SJ-Coding-Club/">SJ Coding Club</a>. Join us to make more cool stuff like this. We're looking for people interested in building things, solving problems, and learning web design (so we can stop using the same old-fashioned minimalist styles like this one).</p>  
+</footer>
